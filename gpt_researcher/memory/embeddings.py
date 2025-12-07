@@ -12,6 +12,7 @@ _SUPPORTED_PROVIDERS = {
     "gigachat",
     "google_vertexai",
     "google_genai",
+    "gemini_native",
     "fireworks",
     "ollama",
     "together",
@@ -74,6 +75,17 @@ class Memory:
 
                 _embeddings = GoogleGenerativeAIEmbeddings(
                     model=model, **embedding_kwargs
+                )
+            case "gemini_native":
+                from .gemini_embeddings import GeminiEmbeddings
+
+                _embeddings = GeminiEmbeddings(
+                    model=model,
+                    task_type=embedding_kwargs.get("task_type"),
+                    output_dimensionality=embedding_kwargs.get("output_dimensionality"),
+                    normalize=embedding_kwargs.get("normalize", True),
+                    **{k: v for k, v in embedding_kwargs.items() 
+                       if k not in ["task_type", "output_dimensionality", "normalize"]}
                 )
             case "fireworks":
                 from langchain_fireworks import FireworksEmbeddings

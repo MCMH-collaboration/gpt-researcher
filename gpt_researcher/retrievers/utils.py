@@ -61,6 +61,7 @@ VALID_RETRIEVERS = [
     "serper",
     "serpapi",
     "google",
+    "gemini_grounding",
     "searx",
     "bing",
     "arxiv",

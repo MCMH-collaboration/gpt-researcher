@@ -1,12 +1,12 @@
 from .base import BaseConfig
 
 DEFAULT_CONFIG: BaseConfig = {
-    "RETRIEVER": "tavily",
-    "EMBEDDING": "openai:text-embedding-3-small",
+    "RETRIEVER": "gemini_grounding",
+    "EMBEDDING": "gemini_native:gemini-embedding-001",
     "SIMILARITY_THRESHOLD": 0.42,
-    "FAST_LLM": "openai:gpt-4o-mini",
-    "SMART_LLM": "openai:gpt-4.1",  # Has support for long responses (2k+ words).
-    "STRATEGIC_LLM": "openai:o4-mini",  # Can be used with o1 or o3, please note it will make tasks slower.
+    "FAST_LLM": "google_genai:gemini-2.5-flash-lite",
+    "SMART_LLM": "google_genai:gemini-2.5-flash",  # Has support for long responses (2k+ words).
+    "STRATEGIC_LLM": "google_genai:gemini-2.5-flash",  # Fast model for planning and strategic tasks.
     "FAST_TOKEN_LIMIT": 3000,
     "SMART_TOKEN_LIMIT": 6000,
     "STRATEGIC_TOKEN_LIMIT": 4000,
@@ -43,4 +43,12 @@ DEFAULT_CONFIG: BaseConfig = {
     "MCP_ALLOWED_ROOT_PATHS": [],  # List of allowed root paths for local file access
     "MCP_STRATEGY": "fast",  # MCP execution strategy: "fast", "deep", "disabled"
     "REASONING_EFFORT": "medium",
+    
+    # Gemini-specific settings
+    "GEMINI_THINKING_BUDGET": None,  # None = default thinking enabled, 0 = disabled for faster responses, or custom value
+    "GEMINI_GROUNDING_DYNAMIC_THRESHOLD": 0.7,  # Confidence threshold for dynamic retrieval (0.0-1.0)
+    
+    # Gemini Embedding settings
+    "GEMINI_EMBEDDING_TASK_TYPE": "RETRIEVAL_DOCUMENT",  # Task type for embedding optimization
+    "GEMINI_EMBEDDING_DIMENSIONALITY": 768,  # Output dimension size (128-3072, 768 recommended for storage efficiency)
 }
