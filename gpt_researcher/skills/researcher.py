@@ -323,12 +323,46 @@ class ResearchConductor:
 
         # Using asyncio.gather to process the sub_queries asynchronously
         try:
-            context = await asyncio.gather(
-                *[
-                    self._process_sub_query(sub_query, scraped_data, query_domains)
-                    for sub_query in sub_queries
-                ]
-            )
+            
+            # Check if Gemini Grounding is being used
+            is_gemini_grounding = any("GeminiGroundingSearch" in r.__name__ for r in self.researcher.retrievers)
+            
+            if is_gemini_grounding:
+                self.logger.info("Gemini Grounding detected - switching to sequential processing safe mode to respect free tier limits (5 RPM)")
+                if self.researcher.verbose:
+                    await stream_output(
+                        "logs",
+                        "gemini_safe_mode",
+                        f"⏳ Gemini Grounding Safe Mode: Quota limit protection enabled (Sequential processing with delay)",
+                        self.researcher.websocket,
+                    )
+                
+                context = []
+                for i, sub_query in enumerate(sub_queries):
+                    # Process one query
+                    result = await self._process_sub_query(sub_query, scraped_data, query_domains)
+                    context.append(result)
+                    
+                    # Wait if not the last item
+                    if i < len(sub_queries) - 1:
+                        delay = 15  # 15 seconds to stay comfortably under 5 RPM (60s/5 = 12s, plus buffer)
+                        self.logger.info(f"Safe mode delay: Waiting {delay}s before next query...")
+                        if self.researcher.verbose:
+                             await stream_output(
+                                "logs",
+                                "safe_mode_delay",
+                                f"⏳ Waiting {delay}s for API rate limit cooldown...",
+                                self.researcher.websocket,
+                            )
+                        await asyncio.sleep(delay)
+            else:
+                # Standard concurrent processing for other retrievers
+                context = await asyncio.gather(
+                    *[
+                        self._process_sub_query(sub_query, scraped_data, query_domains)
+                        for sub_query in sub_queries
+                    ]
+                )
             self.logger.info(f"Gathered context from {len(context)} sub-queries")
             # Filter out empty results and join the context
             context = [c for c in context if c]

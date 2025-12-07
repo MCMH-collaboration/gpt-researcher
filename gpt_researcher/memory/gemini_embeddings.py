@@ -5,11 +5,12 @@ import os
 import numpy as np
 from typing import List, Optional, Any
 import logging
+from langchain_core.embeddings import Embeddings
 
 logger = logging.getLogger(__name__)
 
 
-class GeminiEmbeddings:
+class GeminiEmbeddings(Embeddings):
     """
     Native Google Gemini embeddings with full feature support.
     

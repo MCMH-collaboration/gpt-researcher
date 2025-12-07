@@ -65,6 +65,10 @@ def get_retriever(retriever: str):
             from gpt_researcher.retrievers import MCPRetriever
 
             return MCPRetriever
+        case "gemini_grounding":
+            from gpt_researcher.retrievers import GeminiGroundingSearch
+
+            return GeminiGroundingSearch
 
         case _:
             return None
