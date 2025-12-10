@@ -37,6 +37,7 @@
         'gpt-researcher/gptr/example',
         'gpt-researcher/gptr/deep_research',
         'gpt-researcher/gptr/config',
+        'reference/config/configuration_parameters',
         'gpt-researcher/gptr/scraping',
         'gpt-researcher/gptr/querying-the-backend',
         'gpt-researcher/gptr/automated-tests',

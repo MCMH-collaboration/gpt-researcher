@@ -134,21 +134,30 @@ class GeminiEmbeddings(Embeddings):
             
             config = self.types.EmbedContentConfig(**config_params)
             
-            # Generate embeddings
-            result = self.client.models.embed_content(
-                model=self.model,
-                contents=texts,
-                config=config
-            )
+            all_embeddings = []
+            batch_size = 100
             
-            # Extract embeddings
-            embeddings = [list(emb.values) for emb in result.embeddings]
+            # Process in batches
+            for i in range(0, len(texts), batch_size):
+                batch_texts = texts[i:i + batch_size]
+                
+                # Generate embeddings for batch
+                result = self.client.models.embed_content(
+                    model=self.model,
+                    contents=batch_texts,
+                    config=config
+                )
+                
+                # Extract embeddings
+                batch_embeddings = [list(emb.values) for emb in result.embeddings]
+                
+                # Normalize if needed (for dimensions < 3072)
+                if self.normalize and self.output_dimensionality and self.output_dimensionality < 3072:
+                    batch_embeddings = [self._normalize_embedding(emb) for emb in batch_embeddings]
+                
+                all_embeddings.extend(batch_embeddings)
             
-            # Normalize if needed (for dimensions < 3072)
-            if self.normalize and self.output_dimensionality and self.output_dimensionality < 3072:
-                embeddings = [self._normalize_embedding(emb) for emb in embeddings]
-            
-            return embeddings
+            return all_embeddings
             
         except Exception as e:
             logger.error(f"Error generating embeddings: {e}")
