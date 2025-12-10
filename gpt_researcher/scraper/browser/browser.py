@@ -26,7 +26,7 @@ class BrowserScraper:
         self.url = url
         self.session = session
         self.selenium_web_browser = "chrome"
-        self.headless = False
+        self.headless = os.getenv("HEADLESS_BROWSER", "False").lower() in ("true", "1", "yes")
         self.user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
                            "AppleWebKit/537.36 (KHTML, like Gecko) "
                            "Chrome/128.0.0.0 Safari/537.36")
