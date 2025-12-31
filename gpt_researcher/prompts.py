@@ -220,6 +220,7 @@ Please do your best, this is very important to my career.
 Assume that the current date is {date.today()}.
 """
 
+    @staticmethod
     def generate_blog_article_prompt(
         primary_keyword: str,
         question: str,
@@ -833,6 +834,7 @@ report_type_mapping = {
     ReportType.CustomReport.value: "generate_custom_report_prompt",
     ReportType.SubtopicReport.value: "generate_subtopic_report_prompt",
     ReportType.DeepResearch.value: "generate_deep_research_prompt",
+    ReportType.BlogReport.value: "generate_blog_article_prompt",
 }
 
 

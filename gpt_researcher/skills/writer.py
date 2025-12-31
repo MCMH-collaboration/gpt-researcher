@@ -62,6 +62,7 @@ class ReportGenerator:
             )
 
         report_params = self.research_params.copy()
+        report_params["report_type"] = self.researcher.report_type
         report_params["context"] = context
         report_params["custom_prompt"] = custom_prompt
 

@@ -249,6 +249,8 @@ async def generate_report(
 
     if report_type == "subtopic_report":
         content = f"{generate_prompt(query, existing_headers, relevant_written_contents, main_topic, context, report_format=cfg.report_format, tone=tone, total_words=cfg.total_words, language=cfg.language)}"
+    elif report_type == "blog_report":
+        content = f"{generate_prompt(primary_keyword=query, question=query, context=context, article_source=report_source, total_words=cfg.total_words, tone=tone, language=cfg.language, target_audience='general readers')}"
     elif custom_prompt:
         content = f"{custom_prompt}\n\nContext: {context}"
     else:
