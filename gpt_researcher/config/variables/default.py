@@ -4,11 +4,11 @@ DEFAULT_CONFIG: BaseConfig = {
     "RETRIEVER": "gemini_grounding",
     "EMBEDDING": "gemini_native:gemini-embedding-001",
     "SIMILARITY_THRESHOLD": 0.42,
-    "FAST_LLM": "google_genai:gemini-2.5-flash-lite",
+    "FAST_LLM": "google_genai:gemini-2.5-flas",
     "SMART_LLM": "google_genai:gemini-2.5-pro",  # Has support for long responses (2k+ words).
     "STRATEGIC_LLM": "google_genai:gemini-2.5-flash",  # Fast model for planning and strategic tasks.
     "FAST_TOKEN_LIMIT": 6000,
-    "SMART_TOKEN_LIMIT": 6000,
+    "SMART_TOKEN_LIMIT": 20000,
     "STRATEGIC_TOKEN_LIMIT": 8000,
     "BROWSE_CHUNK_MAX_LENGTH": 10000,
     "CURATE_SOURCES": False,
@@ -17,7 +17,7 @@ DEFAULT_CONFIG: BaseConfig = {
     "USER_AGENT": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0",
     "MAX_SEARCH_RESULTS_PER_QUERY": 5,
     "MEMORY_BACKEND": "local",
-    "TOTAL_WORDS": 6000,
+    "TOTAL_WORDS": 20000,
     "REPORT_FORMAT": "APA",
     "MAX_ITERATIONS": 3,
     "AGENT_ROLE": None,

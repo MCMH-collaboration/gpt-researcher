@@ -220,6 +220,101 @@ Please do your best, this is very important to my career.
 Assume that the current date is {date.today()}.
 """
 
+    def generate_blog_article_prompt(
+        primary_keyword: str,
+        question: str,
+        context,
+        article_source: str,
+        total_words=2000,
+        tone="authoritative but conversational",
+        language="english",
+        target_audience="general readers",
+    ):
+        """
+        Generates an SEO-optimized blog article prompt based on the given question and research context.
+        """
+
+        reference_prompt = ""
+        if article_source == ReportSource.Web.value:
+            reference_prompt = f"""
+You MUST list all used source URLs at the end of the article under a section titled "References".
+- Do NOT duplicate sources.
+- Each reference must be a full URL (no markdown hyperlink).
+- You MUST also embed contextual hyperlinks naturally within the article body where relevant.
+"""
+        else:
+            reference_prompt = f"""
+You MUST list all used source document names at the end of the article under a section titled "References".
+Do NOT duplicate sources.
+"""
+
+        return f"""
+INFORMATION SOURCE:
+\"\"\"{context}\"\"\"
+
+---
+
+TASK:
+Using the information above, write a **high-quality, SEO-optimized blog article** that thoroughly answers the following query:
+
+\"{question}\"
+
+PRIMARY SEO KEYWORD:
+\"{primary_keyword}\"
+
+CONTENT OBJECTIVES:
+- Produce a **blog-style long-form article**, not an academic report
+- Write for **{target_audience}**
+- Minimum length: **{total_words} words**
+- Tone: **{tone}**
+- Style: clear, engaging, and skimmable
+- Language: {language}
+
+SEO REQUIREMENTS (CRITICAL):
+- Use the primary keyword naturally in:
+  - The H1 title
+  - The introduction (first 100 words)
+  - At least one H2 header
+  - The conclusion
+- Include relevant **secondary keywords and semantic variations** naturally
+- Avoid keyword stuffing
+- Write compelling, click-worthy headings
+- Optimize for readability (short paragraphs, bullet points where useful)
+
+STRUCTURE REQUIREMENTS:
+- Use Markdown formatting
+- Structure with:
+  - # H1 for the main title (SEO-optimized)
+  - ## H2 sections for major topics
+  - ### H3 subsections where helpful
+- DO NOT include a table of contents
+- Include:
+  - A strong hook in the introduction
+  - Practical insights, examples, statistics, or data when available
+  - A clear, opinionated takeaway or recommendation
+- Use markdown tables when comparing data or presenting structured information
+
+CONTENT GUIDELINES:
+- Base all claims strictly on the provided information
+- Prioritize credible and recent sources
+- You MUST form a clear, well-reasoned perspective based on the data
+- Do NOT use vague or generic conclusions
+- Write as a subject-matter expert, not a neutral summarizer
+
+CITATIONS & LINKS:
+- Use in-text citations sparingly and naturally
+- Place citation links at the end of the relevant sentence or paragraph like this: ([source](url))
+- {reference_prompt}
+
+FINAL SECTIONS:
+- Include a strong conclusion that reinforces the article’s main message
+- End with a "References" section
+
+ASSUME TODAY'S DATE IS: {date.today()}
+
+This article is intended for publication on a professional blog and must meet high editorial and SEO standards.
+"""
+
     @staticmethod
     def curate_sources(query, sources, max_results=10):
         return f"""Your goal is to evaluate and curate the provided scraped content for the research task: "{query}"
