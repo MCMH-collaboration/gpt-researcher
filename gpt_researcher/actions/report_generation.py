@@ -255,6 +255,9 @@ async def generate_report(
         content = f"{custom_prompt}\n\nContext: {context}"
     else:
         content = f"{generate_prompt(query, context, report_source, report_format=cfg.report_format, tone=tone, total_words=cfg.total_words, language=cfg.language)}"
+
+    if custom_prompt and report_type in ["subtopic_report", "blog_report"]:
+        content += f"\n\n{custom_prompt}"
     try:
         report = await create_chat_completion(
             model=cfg.smart_llm_model,
