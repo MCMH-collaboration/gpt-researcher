@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/user/Desktop/MHLiu/mh_repos/gpt-researcher diff --name-status master...HEAD)",
+      "Bash(git -C /Users/user/Desktop/MHLiu/mh_repos/gpt-researcher log --oneline master..HEAD)",
+      "Bash(git -C /Users/user/Desktop/MHLiu/mh_repos/gpt-researcher diff master...HEAD --stat)",
+      "Bash(git -C /Users/user/Desktop/MHLiu/mh_repos/gpt-researcher diff master...HEAD -- gpt_researcher/prompts.py)",
+      "Bash(git -C /Users/user/Desktop/MHLiu/mh_repos/gpt-researcher diff master...HEAD -- gpt_researcher/skills/researcher.py gpt_researcher/skills/writer.py)",
+      "Bash(git -C /Users/user/Desktop/MHLiu/mh_repos/gpt-researcher diff master...HEAD -- gpt_researcher/config/variables/default.py gpt_researcher/config/variables/base.py)",
+      "Bash(git -C /Users/user/Desktop/MHLiu/mh_repos/gpt-researcher diff master...HEAD -- gpt_researcher/actions/report_generation.py gpt_researcher/actions/retriever.py gpt_researcher/utils/enum.py gpt_researcher/utils/llm.py gpt_researcher/scraper/browser/browser.py gpt_researcher/memory/embeddings.py gpt_researcher/retrievers/__init__.py gpt_researcher/retrievers/utils.py)",
+      "Bash(git -C /Users/user/Desktop/MHLiu/mh_repos/gpt-researcher diff master...HEAD -- requirements.txt)"
+    ]
+  }
+}
